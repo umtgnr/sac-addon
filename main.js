@@ -57,13 +57,13 @@
 
       if (!data) return;
 
-      // SAC passes bar data inside data.measures (array of series).
-      // Each series has a dataPoints array with per-bar geometry:
-      //   { x, y, width, height, color }
-      const measures = data.measures || [];
+      // IVizGeneralPlotareaExtensionData:
+      //   data.series     — ISeries[]
+      //   series.dataPoints — IRect[] each with { x, y, width, height, color }
+      var series = data.series || [];
 
-      measures.forEach(function (measure) {
-        var points = measure.dataPoints || [];
+      series.forEach(function (s) {
+        var points = s.dataPoints || [];
 
         points.forEach(function (point) {
           if (!point || point.width <= 0 || point.height <= 0) return;
@@ -76,7 +76,7 @@
             'top:'    + point.y      + 'px',
             'width:'  + point.width  + 'px',
             'height:' + point.height + 'px',
-            'background-color:' + (point.color || measure.color || '#5899DA'),
+            'background-color:' + (point.color || s.color || '#5899DA'),
             'border-top-right-radius:'    + CORNER_RADIUS + 'px',
             'border-bottom-right-radius:' + CORNER_RADIUS + 'px'
           ].join(';');
